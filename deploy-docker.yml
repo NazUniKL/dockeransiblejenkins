@@ -7,28 +7,12 @@
       package:
         name: python3-pip
         state: present
-      when: ansible_os_family == 'Debian'  # Condition for Ubuntu
-
-    - name: Install python pip
-      become: yes
-      package:
-        name: python-pip
-        state: present
-      when: ansible_os_family == 'RedHat'  # Condition for CentOS
 
     - name: Install docker
       become: yes
       package:
         name: docker.io
         state: present
-      when: ansible_os_family == 'Debian'  # Condition for Ubuntu
-
-    - name: Install docker
-      become: yes
-      package:
-        name: docker
-        state: present
-      when: ansible_os_family == 'RedHat'  # Condition for CentOS
 
     - name: Start docker   
       become: yes
