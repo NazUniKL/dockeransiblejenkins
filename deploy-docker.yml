@@ -1,35 +1,39 @@
 ---
 - hosts: dev
-  become: True
+  become: true
   tasks:
-    - name: Install python pip
-      become: yes
+    - name: Debugging - Displaying Operating System Information
+      debug:
+        msg: "Operating System Family: {{ ansible_os_family }}"
+
+    - name: Debugging - Install python3-pip
+      become: true
       package:
         name: python3-pip
         state: present
 
-    - name: Install docker
-      become: yes
+    - name: Debugging - Install Docker.io
+      become: true
       package:
         name: docker.io
         state: present
 
-    - name: Start docker   
-      become: yes
+    - name: Debugging - Start Docker Service
+      become: true
       service:
         name: docker
         state: started
         enabled: yes
 
-    - name: Install docker-py python module
+    - name: Debugging - Install docker-py Python module
       pip:
         name: docker-py
         state: present
 
-    - name: Start the container
+    - name: Debugging - Start the container
       docker_container:
         name: hariapp
-        image: "nazx/hariapp:{{DOCKER_TAG}}"
+        image: "nazx/hariapp:{{ DOCKER_TAG }}"
         state: started
         published_ports:
           0.0.0.0:8081:8080
