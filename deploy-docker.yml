@@ -1,24 +1,24 @@
 ---
-- hosts: dev                               ---> this playbook is not for UBUNTU Server this is for centos. This will cause error in ubuntu server
+- hosts: dev
   become: True
   tasks:
     - name: Install python pip
-      yum:
+      apt:
         name: python-pip
         state: present
     - name: Install docker
-      yum:
-        name: docker
+      apt:
+        name: docker.io
         state: present
+    - name: start docker   
+      service:
+        name: docker
+        state: started
+        enabled: yes
     - name: Install docker-py python module
       pip:
         name: docker-py
         state: present
-    - name: start docker
-      service:
-        name: snap.docker.dockerd
-        state: started
-        enabled: yes
     - name: Start the container
       docker_container:
         name: hariapp
