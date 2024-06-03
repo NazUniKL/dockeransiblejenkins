@@ -3,22 +3,45 @@
   become: True
   tasks:
     - name: Install python pip
-      apt:
+      become: yes
+      package:
+        name: python3-pip
+        state: present
+      when: ansible_os_family == 'Debian'  # Condition for Ubuntu
+
+    - name: Install python pip
+      become: yes
+      package:
         name: python-pip
         state: present
+      when: ansible_os_family == 'RedHat'  # Condition for CentOS
+
     - name: Install docker
-      apt:
+      become: yes
+      package:
         name: docker.io
         state: present
-    - name: start docker   
+      when: ansible_os_family == 'Debian'  # Condition for Ubuntu
+
+    - name: Install docker
+      become: yes
+      package:
+        name: docker
+        state: present
+      when: ansible_os_family == 'RedHat'  # Condition for CentOS
+
+    - name: Start docker   
+      become: yes
       service:
         name: docker
         state: started
         enabled: yes
+
     - name: Install docker-py python module
       pip:
         name: docker-py
         state: present
+
     - name: Start the container
       docker_container:
         name: hariapp
